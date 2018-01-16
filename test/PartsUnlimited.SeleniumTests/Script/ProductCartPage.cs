@@ -15,7 +15,7 @@ namespace PartsUnlimited.Script
     [TestFixture] //Identifying class as Test class
     class ProductCartPage : Base_Class
     {
-        string cartValue;
+        //string cartValue;
 
         //#region Before Class Method  
         //[SetUp] //Identifies a method to be executed each time before a TestMethod/Test is executed

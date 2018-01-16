@@ -136,9 +136,9 @@ namespace PartsUnlimited.Controllers
         {
             // This code allows you exercise the flow without actually sending codes
             // For production use please register a SMS provider in IdentityConfig and generate a code here.
-#if DEMO
+//#if DEMO
             ViewBag.Code = await UserManager.GenerateChangePhoneNumberTokenAsync((await GetCurrentUserAsync()).Id, phoneNumber);
-#endif
+//#endif
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
