@@ -35,7 +35,7 @@ namespace PartsUnlimited
             
             if (browserName.Equals("Chrome"))
             {
-                PropertiesCollection.driver = new ChromeDriver();
+                PropertiesCollection.driver = new ChromeDriver(@"C:\chromedriver");
             }
 
             //else if (browserName.Equals("IE"))
