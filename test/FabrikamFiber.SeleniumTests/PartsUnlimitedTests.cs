@@ -27,7 +27,7 @@ namespace FabrikamFiber.SeleniumTests
         [TestMethod]
         public void TestShoppingCart()
         {
-            var homeUrl = "https://partsdev1.azurewebsites.net";
+            var homeUrl = "http://localhost:82/";
             driver.Navigate().GoToUrl($"{homeUrl}/ShoppingCart");
 
             // check that the cart is empty
@@ -63,7 +63,7 @@ namespace FabrikamFiber.SeleniumTests
         [TestMethod]
         public void TestSearch()
         {
-            driver.Navigate().GoToUrl("https://partsdev1.azurewebsites.net/");
+            driver.Navigate().GoToUrl("http://localhost:82/");
             driver.FindElement(By.Id("search-box")).SendKeys("oil");
             driver.FindElement(By.Id("search-link")).Click();
 

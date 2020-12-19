@@ -23,7 +23,8 @@ namespace PartsUnlimited.POM
         private IWebElement LoginBtn { get; set; }
 
         //Identifying the Email field
-        [FindsBy(How = How.Id, Using = "test")]
+        // Replace with Email
+        [FindsBy(How = How.Id, Using = "Email")]
         private IWebElement EmailID { get; set; }
         
         //Identifying the Password field
