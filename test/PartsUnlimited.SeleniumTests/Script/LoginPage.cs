@@ -123,6 +123,15 @@ namespace PartsUnlimited.Script
         }
 
         #endregion
+        
+        #region Test Scenario 2: Logout from the application
+        [TestCaseSource(typeof(Base_Class), "BrowserToRunWith")]
+        [Test]
+        public void navigatehomepage(string browserName)
+        {
+            NavigateToHomePage(browserName);
+        }
+        #endregion
 
     }
 }
