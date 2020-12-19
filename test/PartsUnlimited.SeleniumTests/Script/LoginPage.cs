@@ -124,12 +124,18 @@ namespace PartsUnlimited.Script
 
         #endregion
         
-        #region Test Scenario 2: Logout from the application
+        #region Test Scenario 3: Logout from the application
         [TestCaseSource(typeof(Base_Class), "BrowserToRunWith")]
         [Test]
         public void navigatehomepage(string browserName)
         {
             NavigateToHomePage(browserName);
+
+            //string email = "Administrator@test.co";//Convert.ToString(rCnt.Rows[0]["Email"]);
+            //string password = "YouShouldChangeThisPassword1!";//Convert.ToString(rCnt.Rows[0]["Password"]);
+
+            //wait
+            Base_Class.Wait();
         }
         #endregion
 
