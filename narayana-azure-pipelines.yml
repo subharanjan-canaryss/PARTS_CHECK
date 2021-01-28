@@ -1,0 +1,88 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- master
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet 4.3.0'
+      inputs:
+        versionSpec: 4.3.0
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        restoreSolution: '$(Parameters.solution)'
+  
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare analysis on SonarCloud'
+      inputs:
+        SonarCloud: 'narayana-sonarcloudanalysis'
+        organization: 'rubdevopson'
+        scannerMode: 'MSBuild'
+        projectKey: 'rubdevopson_Selenium'
+        projectName: 'Selenium'
+    
+    - task: VSBuild@1
+      inputs:
+        solution: '**\*.sln'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+    
+    - task: VSTest@2
+      displayName: 'Test Assemblies'
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\$(BuildConfiguration)\*test*.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        codeCoverageEnabled: true
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+        diagnosticsEnabled: true
+    
+    - task: CopyFiles@2
+      displayName: 'Copy Selenium Tests'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/test/PartsUnlimited.SeleniumTests/bin/$(BuildConfiguration)'
+        Contents: '**'
+        TargetFolder: '$(build.artifactstagingdirectory)/TestAssemblies'
+      
+    - task: CopyFiles@2
+      displayName: 'Copy Database Files'
+      inputs:
+        SourceFolder: 'Database/Database'
+        Contents: '**'
+        TargetFolder: '$(build.artifactstagingdirectory)/Database'
+      
+    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+      displayName: 'Run Code Analysis'
+  
+    - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+      displayName: 'Publish Quality Gate Result'
+      inputs:
+        pollingTimeoutSec: '300'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
