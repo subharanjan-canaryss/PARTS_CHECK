@@ -12,6 +12,11 @@ stages:
   - job: Build
     pool:
       vmImage: 'windows-latest'
+      demands:
+      - msbuild
+      - visualstudio
+      - vstest
+      - java
 
     variables:
       solution: '**/*.sln'
