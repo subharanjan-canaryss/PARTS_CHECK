@@ -108,28 +108,37 @@ stages:
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:
                 IISDeploymentType: 'IISWebsite'
-                ActionIISWebsite: 'CreateOrUpdateWebsite'
-                WebsiteName: 'PartsUnlimited'
-                WebsitePhysicalPath: '%SystemDrive%\inetpub\PartsUnlimited'
-                WebsitePhysicalPathAuth: 'WebsiteWindowsAuth'
+                actionIISWebsite: 'CreateOrUpdateWebsite'
+                websiteName: 'PartsUnlimited'
+                websitePhysicalPath: '%SystemDrive%\inetpub\PartsUnlimited'
+                websitePhysicalPathAuth: 'WebsiteWindowsAuth'
                 WebsiteAuthUserName: 'canarys123'
                 WebsiteAuthUserPassword: 'Password@123'
-                AddBinding: true
+                addBinding: true
                 protocol: 'http'
                 iPAddress: 'All Unassigned'
                 port: '82'
-                Bindings:
+                bindings:
                 CreateOrUpdateAppPoolForWebsite: true
-                AppPoolNameForWebsite: 'PartsUnlimited'
-                DotNetVersionForWebsite: 'v4.0'
-                PipeLineModeForWebsite: 'Integrated'
-                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+                configureAuthenticationForWebsite: true
+                appPoolNameForWebsite: 'PartsUnlimited'
+                dotNetVersionForWebsite: 'v4.0'
+                pipeLineModeForWebsite: 'Integrated'
+                appPoolIdentityForWebsite: 'ApplicationPoolIdentity'
                 parentWebsiteNameForVD: 'PartsUnlimited'
                 virtualPathForVD:
                 physicalPathForVD: '%SystemDrive%\inetpub\PartsUnlimited'
-                ParentWebsiteNameForApplication: 'PartsUnlimited'
+                parentWebsiteNameForApplication: 'PartsUnlimited'
                 virtualPathForApplication: '%SystemDrive%\inetpub\PartsUnlimited'
-                
+                appPoolNameForApplication: 'PartsUnlimited'
+                dotNetVersionForApplication: 'v4.0'
+                pipeLineModeForApplication: 'Integrated'
+                appPoolIdentityForApplication: 'ApplicationPoolIdentity'
+                appPoolName: 'PartsUnlimited'
+                dotNetVersion: 'v4.0'
+                pipeLineMode: 'Integrated'
+                appPoolIdentity: 'ApplicationPoolIdentity'
+
 
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
