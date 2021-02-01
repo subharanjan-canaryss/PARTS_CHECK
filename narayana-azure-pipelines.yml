@@ -142,7 +142,7 @@ stages:
             - task: SqlDacpacDeploymentOnMachineGroup@0
               displayName: 'SQL DB Deploy'
               inputs:
-                DacpacFile: '$(System.DefaultWorkingDirectory)/_Selenium-UI/drop/Database/pul.dacpac'
+                DacpacFile: '$(System.DefaultWorkingDirectory)/_Selenium-YAML/drop/Database/pul.dacpac'
                 ServerName: 'seleniumvm\SQLEXPRESS'
                 DatabaseName: PartsUnlimitedDB
                 AuthScheme: sqlServerAuthentication
