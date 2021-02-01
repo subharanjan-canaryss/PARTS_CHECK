@@ -136,7 +136,7 @@ stages:
               displayName: 'IIS Web App Deploy'
               inputs:
                 WebSiteName: 'PartsUnlimited'
-                Package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+                Package: '$(System.ArtifactsDirectory)\**\*.zip'
                 
             
             - task: SqlDacpacDeploymentOnMachineGroup@0
