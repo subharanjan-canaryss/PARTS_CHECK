@@ -98,7 +98,6 @@ stages:
       runOnce:
         deploy:
           steps:
-    
             - task: DownloadBuildArtifacts@0
               inputs:
                 buildType: 'current'
@@ -107,9 +106,7 @@ stages:
                 downloadPath: '$(System.ArtifactsDirectory)'
             
             - task: IISWebAppManagementOnMachineGroup@0
-              displayName: 'IIS Web App Manage'
               inputs:
-                EnableIIS: true
                 IISDeploymentType: 'IISWebsite'
                 ActionIISWebsite: 'CreateOrUpdateWebsite'
                 WebsiteName: 'PartsUnlimited'
@@ -121,21 +118,25 @@ stages:
                 protocol: 'http'
                 iPAddress: 'All Unassigned'
                 port: '82'
+                Bindings:
                 CreateOrUpdateAppPoolForWebsite: true
-                ConfigureAuthenticationForWebsite: true
                 AppPoolNameForWebsite: 'PartsUnlimited'
                 DotNetVersionForWebsite: 'v4.0'
                 PipeLineModeForWebsite: 'Integrated'
                 AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-                AnonymousAuthenticationForWebsite: true
-                ParentWebsiteNameForVD: PartsUnlimited
-                ParentWebsiteNameForApplication: PartsUnlimited
+                parentWebsiteNameForVD: 'PartsUnlimited'
+                virtualPathForVD:
+                physicalPathForVD: '%SystemDrive%\inetpub\PartsUnlimited'
+                ParentWebsiteNameForApplication: 'PartsUnlimited'
+                virtualPathForApplication: '%SystemDrive%\inetpub\PartsUnlimited'
+                
 
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
               inputs:
                 WebSiteName: 'PartsUnlimited'
                 Package: '$(System.ArtifactsDirectory)\**\*.zip'
+                XmlVariableSubstitution: True
             
 
             - task: SqlDacpacDeploymentOnMachineGroup@0
