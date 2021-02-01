@@ -77,14 +77,6 @@ stages:
         SourceFolder: 'Database/Database'
         Contents: '**'
         TargetFolder: '$(build.artifactstagingdirectory)/Database'
-      
-    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-      displayName: 'Run Code Analysis'
-  
-    - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
-      displayName: 'Publish Quality Gate Result'
-      inputs:
-        pollingTimeoutSec: '300'
     
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
@@ -142,7 +134,7 @@ stages:
             - task: SqlDacpacDeploymentOnMachineGroup@0
               inputs:
                 TaskType: 'dacpac'
-                DacpacFile: '$(System.DefaultWorkingDirectory)/drop/Database/pul.dacpac'
+                DacpacFile: '$(System.DefaultWorkingDirectory)\1\a\drop\Database\pul.dacpac'
                 TargetMethod: 'server'
                 ServerName: 'seleniumvm\SQLEXPRESS'
                 DatabaseName: 'PartsUnlimitednewDB'
@@ -161,7 +153,7 @@ stages:
               inputs:
                 testSelector: 'testAssemblies'
                 testAssemblyVer2: '**'
-                searchFolder: '$(System.DefaultWorkingDirectory)\_Selenium-YAML\drop\TestAssemblies'
+                searchFolder: '$(System.DefaultWorkingDirectory)\1\a\drop\TestAssemblies'
                 resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
                 uiTests: true
                 vsTestVersion: 'toolsInstaller'
