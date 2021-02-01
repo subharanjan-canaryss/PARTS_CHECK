@@ -92,3 +92,78 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - deployment: deploymentjob
+    displayName: Deployment Job
+    environment:
+      name: seleniumvm
+      resourceType: VirtualMachine
+    strategy:
+    runOnce:
+    steps:
+    
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    
+    - task: IISWebAppManagementOnMachineGroup@0
+      displayName: 'IIS Web App Manage'
+      inputs:
+        EnableIIS: true
+        WebsiteName: PartsUnlimited
+        WebsitePhysicalPath: '%SystemDrive%\inetpub\PartsUnlimited'
+        WebsitePhysicalPathAuth: WebsiteWindowsAuth
+        WebsiteAuthUserName: canarys123
+        WebsiteAuthUserPassword: 'Password@123'
+        AddBinding: true
+        Bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"82","hostname":"","sslThumbprint":"","sniFlag":false}]}'
+        CreateOrUpdateAppPoolForWebsite: true
+        ConfigureAuthenticationForWebsite: true
+        AppPoolNameForWebsite: PartsUnlimited
+        AnonymousAuthenticationForWebsite: true
+        ParentWebsiteNameForVD: PartsUnlimited
+        ParentWebsiteNameForApplication: PartsUnlimited
+    
+    - task: IISWebAppDeploymentOnMachineGroup@0
+      displayName: 'IIS Web App Deploy'
+      inputs:
+        WebSiteName: PartsUnlimited
+        XmlVariableSubstitution: True
+    
+    - task: SqlDacpacDeploymentOnMachineGroup@0
+      displayName: 'SQL DB Deploy'
+      inputs:
+        DacpacFile: '$(System.DefaultWorkingDirectory)/_Selenium-UI/drop/Database/pul.dacpac'
+        ServerName: 'seleniumvm\SQLEXPRESS'
+        DatabaseName: PartsUnlimitedDB
+        AuthScheme: sqlServerAuthentication
+        SqlUsername: sa
+        SqlPassword: 'Password@123'
+    
+    - task: VisualStudioTestPlatformInstaller@1
+      displayName: 'Visual Studio Test Platform Installer'
+      inputs:
+        versionSelector: latestStable
+    
+    - task: VSTest@2
+      displayName: 'Run Selenium UI tests'
+      inputs:
+        testAssemblyVer2: '**'
+        searchFolder: '$(System.DefaultWorkingDirectory)/_Selenium-UI/drop/TestAssemblies'
+        resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
+        uiTests: true
+        vsTestVersion: toolsInstaller
+        diagnosticsEnabled: true
+    
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results *.trx'
+      inputs:
+        testResultsFiles: '*.trx'
+        searchFolder: '$(System.DefaultWorkingDirectory)\TestResults'
+      condition: succeededOrFailed()
