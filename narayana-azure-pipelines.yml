@@ -137,18 +137,19 @@ stages:
               inputs:
                 WebSiteName: 'PartsUnlimited'
                 Package: '$(System.ArtifactsDirectory)\**\*.zip'
-                
             
+
             - task: SqlDacpacDeploymentOnMachineGroup@0
-              displayName: 'SQL DB Deploy'
               inputs:
-                DacpacFile: '$(System.DefaultWorkingDirectory)/_Selenium-YAML/drop/Database/pul.dacpac'
+                TaskType: 'dacpac'
+                DacpacFile: '$(System.ArtifactsDirectory)/_Selenium-YAML/drop/Database/pul.dacpac'
+                TargetMethod: 'server'
                 ServerName: 'seleniumvm\SQLEXPRESS'
-                DatabaseName: PartsUnlimitedDB
-                AuthScheme: sqlServerAuthentication
-                SqlUsername: sa
+                DatabaseName: 'PartsUnlimitednewDB'
+                AuthScheme: 'sqlServerAuthentication'
+                SqlUsername: 'sa'
                 SqlPassword: 'Password@123'
-            
+
             - task: VisualStudioTestPlatformInstaller@1
               displayName: 'Visual Studio Test Platform Installer'
               inputs:
