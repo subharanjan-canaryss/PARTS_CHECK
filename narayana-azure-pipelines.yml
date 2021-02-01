@@ -110,20 +110,27 @@ stages:
               displayName: 'IIS Web App Manage'
               inputs:
                 EnableIIS: true
-                WebsiteName: PartsUnlimited
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'PartsUnlimited'
                 WebsitePhysicalPath: '%SystemDrive%\inetpub\PartsUnlimited'
-                WebsitePhysicalPathAuth: WebsiteWindowsAuth
-                WebsiteAuthUserName: canarys123
+                WebsitePhysicalPathAuth: 'WebsiteWindowsAuth'
+                WebsiteAuthUserName: 'canarys123'
                 WebsiteAuthUserPassword: 'Password@123'
                 AddBinding: true
-                Bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"82","hostname":"","sslThumbprint":"","sniFlag":false}]}'
+                protocol: 'http'
+                iPAddress: 'All Unassigned'
+                port: '82'
                 CreateOrUpdateAppPoolForWebsite: true
                 ConfigureAuthenticationForWebsite: true
-                AppPoolNameForWebsite: PartsUnlimited
+                AppPoolNameForWebsite: 'PartsUnlimited'
+                DotNetVersionForWebsite: 'v4.0'
+                PipeLineModeForWebsite: 'Integrated'
+                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
                 AnonymousAuthenticationForWebsite: true
                 ParentWebsiteNameForVD: PartsUnlimited
                 ParentWebsiteNameForApplication: PartsUnlimited
-            
+
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
               inputs:
