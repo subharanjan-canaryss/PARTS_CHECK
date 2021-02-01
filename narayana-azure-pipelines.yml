@@ -99,7 +99,8 @@ stages:
   - deployment: deploymentjob
     displayName: Deployment Job
     environment:
-      name: seleniumvm
+      name: narayanaplayground
+      resourceName: seleniumvm
       resourceType: VirtualMachine
     strategy:
       runOnce:
