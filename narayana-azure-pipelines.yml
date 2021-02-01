@@ -135,8 +135,9 @@ stages:
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
               inputs:
-                WebSiteName: PartsUnlimited
-                XmlVariableSubstitution: True
+                WebSiteName: 'PartsUnlimited'
+                Package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+                
             
             - task: SqlDacpacDeploymentOnMachineGroup@0
               displayName: 'SQL DB Deploy'
