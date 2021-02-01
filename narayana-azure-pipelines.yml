@@ -142,32 +142,34 @@ stages:
             - task: SqlDacpacDeploymentOnMachineGroup@0
               inputs:
                 TaskType: 'dacpac'
-                DacpacFile: '$(System.ArtifactsDirectory)/_Selenium-YAML/drop/Database/pul.dacpac'
+                DacpacFile: '$(System.DefaultWorkingDirectory)/_Selenium-YAML/drop/Database/pul.dacpac'
                 TargetMethod: 'server'
                 ServerName: 'seleniumvm\SQLEXPRESS'
                 DatabaseName: 'PartsUnlimitednewDB'
                 AuthScheme: 'sqlServerAuthentication'
                 SqlUsername: 'sa'
                 SqlPassword: 'Password@123'
-
+            
             - task: VisualStudioTestPlatformInstaller@1
               displayName: 'Visual Studio Test Platform Installer'
               inputs:
-                versionSelector: latestStable
+                packageFeedSelector: 'nugetOrg'
+                versionSelector: 'latestStable'
             
             - task: VSTest@2
               displayName: 'Run Selenium UI tests'
               inputs:
+                testSelector: 'testAssemblies'
                 testAssemblyVer2: '**'
-                searchFolder: '$(System.DefaultWorkingDirectory)/_Selenium-UI/drop/TestAssemblies'
+                searchFolder: '$(System.DefaultWorkingDirectory)/_Selenium-YAML/drop/TestAssemblies'
                 resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
                 uiTests: true
-                vsTestVersion: toolsInstaller
+                vsTestVersion: 'toolsInstaller'
                 diagnosticsEnabled: true
             
             - task: PublishTestResults@2
               displayName: 'Publish Test Results *.trx'
               inputs:
+                testResultsFormat: 'JUnit'
                 testResultsFiles: '*.trx'
                 searchFolder: '$(System.DefaultWorkingDirectory)\TestResults'
-              condition: succeededOrFailed()
