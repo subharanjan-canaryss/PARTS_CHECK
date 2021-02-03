@@ -105,45 +105,27 @@ stages:
                 artifactName: 'drop'
                 downloadPath: '$(System.ArtifactsDirectory)'
             
+
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:
                 IISDeploymentType: 'IISWebsite'
-                actionIISWebsite: 'CreateOrUpdateWebsite'
-                websiteName: 'PartsUnlimited'
-                websitePhysicalPath: '%SystemDrive%\inetpub\PartsUnlimited'
-                websitePhysicalPathAuth: 'WebsiteWindowsAuth'
-                WebsiteAuthUserName: 'canarys123'
-                WebsiteAuthUserPassword: 'Password@123'
-                addBinding: true
-                protocol: 'http'
-                iPAddress: 'All Unassigned'
-                port: '82'
-                bindings:
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'NewParts'
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                AddBinding: true
+                Bindings: '82'
                 CreateOrUpdateAppPoolForWebsite: true
-                configureAuthenticationForWebsite: false
-                appPoolNameForWebsite: 'PartsUnlimited'
-                dotNetVersionForWebsite: 'v4.0'
-                pipeLineModeForWebsite: 'Integrated'
-                appPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-                parentWebsiteNameForVD: 'PartsUnlimited'
-                virtualPathForVD:
-                physicalPathForVD: '%SystemDrive%\inetpub\PartsUnlimited'
-                parentWebsiteNameForApplication: 'PartsUnlimited'
-                virtualPathForApplication: '%SystemDrive%\inetpub\PartsUnlimited'
-                appPoolNameForApplication: 'PartsUnlimited'
-                dotNetVersionForApplication: 'v4.0'
-                pipeLineModeForApplication: 'Integrated'
-                appPoolIdentityForApplication: 'ApplicationPoolIdentity'
-                appPoolName: 'PartsUnlimited'
-                dotNetVersion: 'v4.0'
-                pipeLineMode: 'Integrated'
-                appPoolIdentity: 'ApplicationPoolIdentity'
+                AppPoolNameForWebsite: 'NewParts'
+                DotNetVersionForWebsite: 'v4.0'
+                PipeLineModeForWebsite: 'Integrated'
+                AppPoolIdentityForWebsite: 'NetworkService'
 
             
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
               inputs:
-                WebSiteName: 'PartsUnlimited'
+                WebSiteName: 'NewParts'
                 Package: '$(System.ArtifactsDirectory)\**\*.zip'
                 XmlTransformation: true
                 XmlVariableSubstitution: true
