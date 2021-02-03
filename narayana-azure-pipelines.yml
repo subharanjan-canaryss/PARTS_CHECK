@@ -150,14 +150,14 @@ stages:
 
             - task: SqlDacpacDeploymentOnMachineGroup@0
               inputs:
-                TaskType: 'dacpac'
-                DacpacFile: '$(System.DefaultWorkingDirectory)/**/*.dacpac'
-                TargetMethod: 'server'
-                ServerName: 'seleniumvm\SQLEXPRESS'
-                DatabaseName: 'PartsUnlimitednewDB'
-                AuthScheme: 'sqlServerAuthentication'
-                SqlUsername: 'sa'
-                SqlPassword: 'Password@123'
+                taskType: 'dacpac'
+                dacpacFile: '$(System.DefaultWorkingDirectory)/**/*.dacpac'
+                targetMethod: 'server'
+                serverName: 'seleniumvm\SQLEXPRESS'
+                databaseName: 'PartsUnlimitednewDB'
+                authScheme: 'sqlServerAuthentication'
+                sqlUsername: 'sa'
+                sqlPassword: 'Password@123'
             
             - task: VisualStudioTestPlatformInstaller@1
               displayName: 'Visual Studio Test Platform Installer'
