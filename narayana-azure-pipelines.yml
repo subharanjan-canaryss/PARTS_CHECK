@@ -120,7 +120,7 @@ stages:
                 port: '82'
                 bindings:
                 CreateOrUpdateAppPoolForWebsite: true
-                configureAuthenticationForWebsite: true
+                configureAuthenticationForWebsite: false
                 appPoolNameForWebsite: 'PartsUnlimited'
                 dotNetVersionForWebsite: 'v4.0'
                 pipeLineModeForWebsite: 'Integrated'
