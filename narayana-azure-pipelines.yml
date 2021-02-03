@@ -170,7 +170,7 @@ stages:
               inputs:
                 testSelector: 'testAssemblies'
                 testAssemblyVer2: '**'
-                searchFolder: '$(System.DefaultWorkingDirectory)\1\a\drop\TestAssemblies'
+                searchFolder: '$(System.DefaultWorkingDirectory)\drop\TestAssemblies'
                 resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
                 uiTests: true
                 vsTestVersion: 'toolsInstaller'
