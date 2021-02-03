@@ -151,7 +151,7 @@ stages:
             - task: SqlDacpacDeploymentOnMachineGroup@0
               inputs:
                 taskType: 'dacpac'
-                dacpacFile: '$(System.DefaultWorkingDirectory)/**/*.dacpac'
+                dacpacFile: '$(System.DefaultWorkingDirectory)\**\*.dacpac'
                 targetMethod: 'server'
                 serverName: 'seleniumvm\SQLEXPRESS'
                 databaseName: 'PartsUnlimitednewDB'
