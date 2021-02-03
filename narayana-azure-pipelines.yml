@@ -90,6 +90,12 @@ stages:
   jobs:
   - deployment: deploymentjob
     displayName: Deployment Job
+    variables:
+      DefaultConnectionString: $(DefaultConnectionString)
+      serverName: $(serverName)
+      DatabaseName: $(DatabaseName)
+      SqlUsername: $(SqlUsername)
+      sqlPassword: $(sqlPassword)
     environment:
       name: narayanaplayenvironment
       resourceName: seleniumvm
@@ -139,25 +145,26 @@ stages:
                 pipeLineMode: 'Integrated'
                 appPoolIdentity: 'ApplicationPoolIdentity'
 
-
+            
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'IIS Web App Deploy'
               inputs:
                 WebSiteName: 'PartsUnlimited'
                 Package: '$(System.ArtifactsDirectory)\**\*.zip'
-                XmlVariableSubstitution: True
-            
+                XmlTransformation: true
+                XmlVariableSubstitution: true
 
             - task: SqlDacpacDeploymentOnMachineGroup@0
               inputs:
                 taskType: 'dacpac'
                 dacpacFile: '$(System.DefaultWorkingDirectory)\**\*.dacpac'
                 targetMethod: 'server'
-                serverName: 'seleniumvm\SQLEXPRESS'
-                databaseName: 'PartsUnlimitednewDB'
+                serverName: '$(serverName)'
+                databaseName: $'(DatabaseName)'
                 authScheme: 'sqlServerAuthentication'
-                sqlUsername: 'sa'
-                sqlPassword: 'Password@123'
+                sqlUsername: $'(SqlUsername)'
+                sqlPassword: $'(sqlPassword)'
+
             
             - task: VisualStudioTestPlatformInstaller@1
               displayName: 'Visual Studio Test Platform Installer'
