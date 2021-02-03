@@ -90,12 +90,6 @@ stages:
   jobs:
   - deployment: deploymentjob
     displayName: Deployment Job
-    variables:
-      DefaultConnectionString: $(DefaultConnectionString)
-      serverName: $(serverName)
-      DatabaseName: $(DatabaseName)
-      SqlUsername: $(SqlUsername)
-      sqlPassword: $(sqlPassword)
     environment:
       name: narayanaplayenvironment
       resourceName: seleniumvm
@@ -160,10 +154,10 @@ stages:
                 dacpacFile: '$(System.DefaultWorkingDirectory)\**\*.dacpac'
                 targetMethod: 'server'
                 serverName: '$(serverName)'
-                databaseName: $'(DatabaseName)'
+                databaseName: '$(DatabaseName)'
                 authScheme: 'sqlServerAuthentication'
-                sqlUsername: $'(SqlUsername)'
-                sqlPassword: $'(sqlPassword)'
+                sqlUsername: '$(SqlUsername)'
+                sqlPassword: '$(sqlPassword)'
 
             
             - task: VisualStudioTestPlatformInstaller@1
