@@ -144,7 +144,7 @@ stages:
               displayName: 'IIS Web App Deploy'
               inputs:
                 WebSiteName: 'PartsUnlimited'
-                Package: '$(System.ArtifactsDirectory)\**\*.zip'
+                Package: '$(System.DefaultWorkingDirectory)\**\*.zip'
                 XmlTransformation: true
                 XmlVariableSubstitution: true
 
@@ -160,6 +160,19 @@ stages:
                 sqlPassword: '$(sqlPassword)'
 
             
+- stage: Testing
+  displayName: Testing
+  jobs:
+  - deployment: deploymentjob
+    displayName: Testing Job
+    environment:
+      name: narayanaplayenvironment
+      resourceName: seleniumvm
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
             - task: VisualStudioTestPlatformInstaller@1
               displayName: 'Visual Studio Test Platform Installer'
               inputs:
