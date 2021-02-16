@@ -80,6 +80,7 @@ stages:
     
     - task: WhiteSource Bolt@20
       inputs:
+        cwd: '$(System.DefaultWorkingDirectory)'
     
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
