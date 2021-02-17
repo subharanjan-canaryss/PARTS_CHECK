@@ -35,3 +35,18 @@ jobs:
       with:
         name: drop
         path: ${{github.workspace}}\stagingdir
+        
+  Deploy:
+    name: DEPLOY TO AZURE WEB APP
+    runs-on: self-hosted
+    needs: [Build]
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: drop
+          path: ${{github.workspace}}
+          
+      - name: Extract Artifact
+        run: expand-archive -path '*.zip' -destinationpath '.\webapp'
+        shell: pwsh
