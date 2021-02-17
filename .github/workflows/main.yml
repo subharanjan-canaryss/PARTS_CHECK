@@ -38,7 +38,7 @@ jobs:
         
   Deploy:
     runs-on: self-hosted
-    needs: [Build]
+    #needs: [Build]
     steps:
     - name: Download Build Artifact
       uses: actions/download-artifact@v2
