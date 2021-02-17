@@ -1,0 +1,37 @@
+name: PartsUnlimited
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+env:
+  SLN_FILE: PartsUnlimited.sln
+  #Provide path of the site inside drop generated after build job as PACKAGE_TEMP_PATH
+  PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
+
+jobs:
+  Build:
+    runs-on: windows-latest
+   
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.5
+   
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
+      
+    - name: NuGet restore
+      run: nuget restore
+        
+    - name: BuildApp
+      run: |
+        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
+    
+    - name: Publish Build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: drop
+        path: ${{github.workspace}}\stagingdir
