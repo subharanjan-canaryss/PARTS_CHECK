@@ -47,12 +47,13 @@ jobs:
         path: ${{github.workspace}}
         
     - name: Extract Artifact
-      run: expand-archive -path '*.zip' -destinationpath 'C:\inetpub\PartsUnlimited'
       shell: pwsh
+      run: expand-archive -path '*.zip' -destinationpath 'C:\inetpub\PartsUnlimited'
+     
           
-    - name: IIS Web App Deploy
-      uses: cschleiden/webdeploy-action@v1
-      with:
-        webSiteName: 'PartsUnlimited'
-        package: ${{github.workspace}}
+   # - name: IIS Web App Deploy
+    #  uses: cschleiden/webdeploy-action@v1
+     # with:
+      #  webSiteName: 'PartsUnlimited'
+       # package: ${{github.workspace}}
 
