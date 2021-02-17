@@ -45,6 +45,10 @@ jobs:
       with:
         name: drop
         path: ${{github.workspace}}
+        
+    - name: Extract Artifact
+      run: expand-archive -path '*.zip' -destinationpath 'C:\inetpub\PartsUnlimited'
+      shell: pwsh
           
     - name: IIS Web App Deploy
       uses: cschleiden/webdeploy-action@v1
