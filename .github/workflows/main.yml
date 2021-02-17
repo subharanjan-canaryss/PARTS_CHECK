@@ -48,7 +48,9 @@ jobs:
         
     - name: Extract Artifact
       #shell: pwsh
-      run: powershell expand-archive -path '*.zip' -destinationpath 'C:\inetpub\PartsUnlimited'
+      run: |
+        powershell expand-archive -path '*.zip' -destinationpath '.\webapp'
+        powershell Copy-Item -Path ".\webapp\${{env.PACKAGE_TEMP_PATH}}\*" -Destination "C:\inetpub\PartsUnlimited" -Recurse
      
           
    # - name: IIS Web App Deploy
