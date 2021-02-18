@@ -36,9 +36,22 @@ jobs:
         name: drop
         path: ${{github.workspace}}\stagingdir
         
+  SonarCloudTrigger:
+    needs: [Build]
+    runs-on: ubuntu-latest 
+    steps:  
+    - name: Clone Repository
+      uses: actions/checkout@v2
+      
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@v1.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
   Deploy:
     runs-on: self-hosted
-    needs: [Build]
+    needs: [Build, SonarCloudTrigger]
     steps:
     - name: Download Build Artifact
       uses: actions/download-artifact@v2
@@ -47,7 +60,6 @@ jobs:
         path: ${{github.workspace}}
         
     - name: Extract Artifact
-      #shell: pwsh
       run: |
         powershell expand-archive -path '*.zip' -destinationpath '.\webapp'
         powershell Copy-Item -Path ".\webapp\${{env.PACKAGE_TEMP_PATH}}\*" -Destination "C:\inetpub\PartsUnlimited" -Recurse
