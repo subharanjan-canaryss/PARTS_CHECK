@@ -53,5 +53,5 @@ jobs:
      
     - name: DACPAC Deploy
       run: |
-        "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimited /TargetServerName:".\sqlExpress"
+        "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimited /TargetServerName:"githubvm\SQLEXPRESS"
 
