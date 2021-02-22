@@ -53,5 +53,5 @@ jobs:
      
     - name: DACPAC Deploy
       run: |
-        powershell sqlpackage /action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimitedDB /TargetServerName:"githubvm\SQLEXPRESS"
+        & sqlpackage /action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimitedDB /TargetServerName:"githubvm\SQLEXPRESS"
 
