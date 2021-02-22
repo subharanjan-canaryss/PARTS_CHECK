@@ -51,10 +51,7 @@ jobs:
         powershell expand-archive -path '*.zip' -destinationpath '.\webapp'
         powershell Copy-Item -Path ".\webapp\${{env.PACKAGE_TEMP_PATH}}\*" -Destination "C:\inetpub\PartsUnlimited" -Recurse
      
-          
-   # - name: IIS Web App Deploy
-    #  uses: cschleiden/webdeploy-action@v1
-     # with:
-      #  webSiteName: 'PartsUnlimited'
-       # package: ${{github.workspace}}
+    - name: DACPAC Deploy
+      run: |
+        "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimited /TargetServerName:".\sqlExpress"
 
