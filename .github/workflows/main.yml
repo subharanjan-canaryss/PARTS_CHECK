@@ -72,6 +72,7 @@ jobs:
         & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" PartsUnlimited.SeleniumTests.exe /ResultsDirectory:"${{github.workspace}}\TestResults"
         
     - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: testResults
         path: ${{github.workspace}}\TestResults
