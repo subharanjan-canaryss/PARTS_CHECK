@@ -29,12 +29,13 @@ jobs:
     - name: BuildApp
       run: |
         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"   
-        
+   
+     
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
       with:
         name: drop
-        path: ${{github.workspace}}\stagingdir
+        path: ${{github.workspace}}
         
   Deploy:
     runs-on: self-hosted
