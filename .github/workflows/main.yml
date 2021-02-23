@@ -53,8 +53,9 @@ jobs:
         name: drop
         path: ${{github.workspace}}
         
-    - name: Extract Artifact
+    - name: Deploy to IIS
       run: |
+        powershell Get-ChildItem -Path .\webapp -Recurse | Remove-Item -Force
         powershell expand-archive -path '*.zip' -destinationpath '.\webapp'
         powershell Copy-Item -Path ".\webapp\${{env.PACKAGE_TEMP_PATH}}\*" -Destination "C:\inetpub\PartsUnlimited" -Recurse -Force
      
