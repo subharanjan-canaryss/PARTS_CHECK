@@ -42,16 +42,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
-    - name: Copy SeleniumFiles
-      uses: canastro/copy-file-action@0.0.2
-      with:
-        source: "${{github.workspace}}/test/PartsUnlimited.SeleniumTests/"
-        target: "${{github.workspace}}/TestAssemblies"
         
   Deploy:
     runs-on: self-hosted
-    needs: [CopyFiles]
+    needs: [Build]
     steps:
     - name: Download Build Artifact
       uses: actions/download-artifact@v2
@@ -74,4 +68,4 @@ jobs:
     steps:
     - name: Run Selenium Tests
       run: |
-        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" ${{github.workspace}}\drop\TestAssemblies
+        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" 
