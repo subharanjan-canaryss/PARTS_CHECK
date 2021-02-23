@@ -28,9 +28,7 @@ jobs:
         
     - name: BuildApp
       run: |
-        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
-    
-    
+        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"   
         
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
@@ -42,6 +40,9 @@ jobs:
     needs: [Build]
     runs-on: ubuntu-latest   
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - name: Copy SeleniumFiles
       uses: canastro/copy-file-action@0.0.2
       with:
