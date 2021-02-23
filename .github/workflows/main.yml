@@ -45,7 +45,7 @@ jobs:
     - name: Copy SeleniumFiles
       uses: canastro/copy-file-action@0.0.2
       with:
-        source: "${{github.workspace}}/test/PartsUnlimited.SeleniumTests/bin"
+        source: "${{github.workspace}}/test/PartsUnlimited.SeleniumTests/"
         target: "${{github.workspace}}/TestAssemblies"
         
   Deploy:
