@@ -34,8 +34,8 @@ jobs:
       shell: pwsh
       working-directory: ${{github.workspace}}/stagingdir
       run: |
-        mkdir TestAssemblies
-        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination . -Recurse
+        new-item -Path . -Name 'TestAssemblies' -ItemType "directory"
+        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
         
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
