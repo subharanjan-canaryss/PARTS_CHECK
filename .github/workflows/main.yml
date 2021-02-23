@@ -73,6 +73,7 @@ jobs:
         
     - name: Upload Testresults
       uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: TestResults
         path: ${{github.workspace}}\TestResults
