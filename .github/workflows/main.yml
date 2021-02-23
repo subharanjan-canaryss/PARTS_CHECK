@@ -39,6 +39,7 @@ jobs:
         path: ${{github.workspace}}\stagingdir
   
   CopyFiles:
+    needs: [Build]
     runs-on: ubuntu-latest   
     steps:
     - name: Copy SeleniumFiles
@@ -49,7 +50,7 @@ jobs:
         
   Deploy:
     runs-on: self-hosted
-    needs: [Build]
+    needs: [CopyFiles]
     steps:
     - name: Download Build Artifact
       uses: actions/download-artifact@v2
