@@ -63,10 +63,10 @@ jobs:
         & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimitedDB /TargetServerName:"githubvm\SQLEXPRESS"
     
     - name: Create Test Results Folder
-      run: mkdir TestResults
+      run: powershell new-item -Path . -Name 'TestResults' -ItemType "directory" -Force
       
     - name: Run Selenium Tests
-      working-directory: ${{github.workspace}}/webapp/TestAssemblies
+      working-directory: ${{github.workspace}}/TestAssemblies
       run: |
         & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" PartsUnlimited.SeleniumTests.exe /ResultsDirectory:"${{github.workspace}}\TestResults"
         
