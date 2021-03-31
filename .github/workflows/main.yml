@@ -24,7 +24,7 @@ jobs:
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1
       
-    - name: Setup VSTest.console.exe
+    - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1
       
     - name: NuGet restore
@@ -35,7 +35,7 @@ jobs:
         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
 
     - name: Run Unit Test
-      run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
+      run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll /ResultsDirectory:"${{github.workspace}}\TestResults"
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
     - name: Copy Selenium Tests
@@ -50,9 +50,16 @@ jobs:
       with:
         name: drop
         path: ${{github.workspace}}/stagingdir
+
+    - name: Upload Unit Testresults
+      uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      with:
+        name: UnitTestResults
+        path: ${{github.workspace}}\TestResults
     
   Deploy:
-    name: DEPLOY TO AZURE WEB APP
+    name: Deploy to Azure
     runs-on: windows-latest
     environment:
       name: WEB APP
@@ -72,7 +79,33 @@ jobs:
         with:
           app-name: ${{env.WEB_APP_NAME}}
           publish-profile: ${{secrets.WEB_APP_PUBLISH_PROFILE}}
-          package: webapp\${{env.PACKAGE_TEMP_PATH}}      
+          package: webapp\${{env.PACKAGE_TEMP_PATH}}
+
+  SeleniumTest:
+    name: Selenium Tests
+    runs-on: windows-latest
+    needs: [Deploy]
+    steps:
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: drop
+          path: ${{github.workspace}}
+
+      - name: Run Selenium Test
+        working-directory: ${{github.workspace}}/TestAssemblies
+        run: |
+          vstest.console.exe PartsUnlimited.SeleniumTests.exe /ResultsDirectory:"${{github.workspace}}\TestResults"
+      
+      - name: Upload Selenium Testresults
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: AutomationTestResults
+          path: ${{github.workspace}}\TestResults
   # Deployiis:
   #   runs-on: self-hosted
   #   needs: [Build]
