@@ -38,9 +38,15 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: ${{ matrix.language }}
-  
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
+
+    - name: NuGet restore
+      run: nuget restore
 
     - name: Build
       run: |
