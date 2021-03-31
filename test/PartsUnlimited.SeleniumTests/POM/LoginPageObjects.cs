@@ -24,7 +24,7 @@ namespace PartsUnlimited.POM
 
         //Identifying the Email field
         // Replace with Email
-        [FindsBy(How = How.Id, Using = "test")]
+        [FindsBy(How = How.Id, Using = "Email")]
         private IWebElement EmailID { get; set; }
         
         //Identifying the Password field
