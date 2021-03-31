@@ -33,8 +33,12 @@ jobs:
     - name: BuildApp
       run: |
         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
-    - run: dir ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
-    - name: Copy Tests
+
+    - name: Run Unit Test
+      run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
+      working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
+    
+    - name: Copy Automation Tests
       shell: pwsh
       working-directory: ${{github.workspace}}/stagingdir
       run: |
