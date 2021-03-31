@@ -91,6 +91,7 @@ jobs:
           
       - run: |
             cd C:/
+            mkdir chromedriver
             dir
           
       - name: Copy file
@@ -98,6 +99,10 @@ jobs:
         with:
          source: ${{github.workspace}}/TestAssemblies/chromedriver.exe
          target: C:/chromedriver/
+       
+      - run: |
+            cd C:/chromedriver
+            dir
        
           
       - shell: pwsh
