@@ -96,7 +96,7 @@ jobs:
           
       - name: Copy file
         shell: pwsh
-        run : copy-item -path ${{github.workspace}}/TestAssemblies/chromedrier.exe -destination C:\chromedriver\
+        run : copy-item -path ${{github.workspace}}/TestAssemblies/chromedriver.exe -destination C:\chromedriver\
        
       - run: |
             cd C:/chromedriver
