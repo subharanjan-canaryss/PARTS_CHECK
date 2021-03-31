@@ -35,7 +35,7 @@ jobs:
         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
 
     - name: Run Unit Test
-      run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll /ResultsDirectory:"${{github.workspace}}\TestResults"
+      run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
     - name: Copy Selenium Tests
@@ -51,12 +51,6 @@ jobs:
         name: drop
         path: ${{github.workspace}}/stagingdir
 
-    - name: Upload Unit Testresults
-      uses: actions/upload-artifact@v2
-      if: ${{ always() }}
-      with:
-        name: UnitTestResults
-        path: ${{github.workspace}}\TestResults
     
   Deploy:
     name: Deploy to Azure
