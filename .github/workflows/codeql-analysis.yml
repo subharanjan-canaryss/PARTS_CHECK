@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp', 'javascript' ]
+        language: [ 'javascript' ]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -42,8 +42,8 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
 
-   # - name: Setup MSBuild
-  #    uses: microsoft/setup-msbuild@v1
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
 
     - name: NuGet restore
       run: nuget restore
