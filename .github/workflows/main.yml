@@ -94,7 +94,9 @@ jobs:
       - run: chrome --version
       
       - name: Setup Firefox
-        uses: browser-actions/setup-firefox@v0.0.0
+        uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: "84.0"
   
       - run: |
             cd "C:/Program Files/Mozilla Firefox"
