@@ -42,15 +42,15 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+   # - name: Setup MSBuild
+  #    uses: microsoft/setup-msbuild@v1
 
     - name: NuGet restore
       run: nuget restore
 
     - name: Build
       run: |
-        msbuild PartsUnlimited.sln
+        dotnet build PartsUnlimited.sln
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
