@@ -97,7 +97,8 @@ jobs:
           
   
       - name: Setup Chrome Driver
-      - uses: nanasess/setup-chromedriver@master
+        uses: nanasess/setup-chromedriver@master
+        
       - run: chromedriver --url-base=/wd/hub &
 
       - name: Run Selenium Test
