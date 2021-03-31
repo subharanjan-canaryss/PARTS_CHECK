@@ -38,7 +38,7 @@ namespace PartsUnlimited.Script
 
             //DataTable rCnt = Excel_Library.GetNumberOfRows(HostingEnvironment.MapPath(@".\Login_Credentials.xlsx", "Sheet1"));
 
-            string email = "Administrator@test.co";//Convert.ToString(rCnt.Rows[0]["Email"]);
+            string email = "Administrator@test.com";//Convert.ToString(rCnt.Rows[0]["Email"]);
             string password = "YouShouldChangeThisPassword1!";//Convert.ToString(rCnt.Rows[0]["Password"]);
             
             //wait
