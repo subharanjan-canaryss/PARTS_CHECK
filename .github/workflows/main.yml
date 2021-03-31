@@ -33,10 +33,7 @@ jobs:
     - name: BuildApp
       run: |
         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
-   
-    #- name: Unit Test
-    #  run: vstest.console.exe /Platform:'Any CPU' ${{github.workspace}}/stagingdir/TestAssemblies/
-   
+    - run: ls ${{github.workspace}}\test
     - name: Copy Tests
       shell: pwsh
       working-directory: ${{github.workspace}}/stagingdir
@@ -49,6 +46,7 @@ jobs:
       with:
         name: drop
         path: ${{github.workspace}}/stagingdir
+    
         
   Deploy:
     runs-on: self-hosted
