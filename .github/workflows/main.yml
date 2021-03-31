@@ -95,10 +95,8 @@ jobs:
             dir
           
       - name: Copy file
-        uses: canastro/copy-action@0.0.2
-        with:
-         source: ${{github.workspace}}/TestAssemblies/chromedriver.exe
-         target: C:/chromedriver/
+        shell: pwsh
+        run : copy-item -path ${{github.workspace}}/TestAssemblies/chromedrier.exe -destination C:\chromedriver\
        
       - run: |
             cd C:/chromedriver
