@@ -16,7 +16,7 @@ namespace PartsUnlimited
 {
     class Base_Class
     {
-        static string Base_Url = "http://localhost:82/";
+        static string Base_Url = "https://partsunlimitted.azurewebsites.net/";
         
         public static IEnumerable<string> BrowserToRunWith()
         {
