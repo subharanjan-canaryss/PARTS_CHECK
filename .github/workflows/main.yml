@@ -94,6 +94,11 @@ jobs:
         with:
           name: drop
           path: ${{github.workspace}}
+          
+  
+      - name: Setup Chrome Driver
+      - uses: nanasess/setup-chromedriver@master
+      - run: chromedriver --url-base=/wd/hub 
 
       - name: Run Selenium Test
         working-directory: ${{github.workspace}}/TestAssemblies
