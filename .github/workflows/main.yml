@@ -93,19 +93,24 @@ jobs:
       
       - run: chrome --version
       
+      - name: Setup Firefox
+        uses: browser-actions/setup-firefox@v0.0.0
+  
+      - run: |
+            cd "C:/Program Files/Mozilla Firefox"
+            dir
+      
+      - name: Copy file
+        shell: pwsh
+        run : copy-item -path ${{github.workspace}}/TestAssemblies/geckodriver.exe -destination "C:/Program Files/Mozilla Firefox"
+      
       - run: |
             cd C:/
             mkdir chromedriver
-            dir
           
       - name: Copy file
         shell: pwsh
-        run : copy-item -path ${{github.workspace}}/TestAssemblies/chromedriver.exe -destination C:\chromedriver\
-       
-      - run: |
-            cd C:/chromedriver
-            dir
-       
+        run : copy-item -path ${{github.workspace}}/TestAssemblies/chromedriver.exe -destination C:\chromedriver\     
           
       - shell: pwsh
         run: echo "CHROMEAPP=C:\Program Files\Google\Chrome\Application\chrome.exe" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
