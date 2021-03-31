@@ -89,6 +89,10 @@ jobs:
           name: drop
           path: ${{github.workspace}}
           
+      - uses: browser-actions/setup-chrome@latest
+      
+      - run: chrome --version
+      
       - run: |
             cd C:/
             mkdir chromedriver
