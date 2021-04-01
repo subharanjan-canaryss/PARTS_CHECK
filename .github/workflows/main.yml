@@ -14,7 +14,7 @@ env:
 jobs:
   BuildTest:
     runs-on: windows-latest
-    name: Build and Unit Test
+    name: 🧪 Build and Unit Test
     steps:
     
     - name: Checkout
@@ -55,7 +55,7 @@ jobs:
 
     
   Staging:
-    name: Deploy to Staging
+    name: 📦 Deploy to Staging
     runs-on: windows-latest
     environment:
       name: STAGING WEB APP
@@ -117,7 +117,6 @@ jobs:
         run: |
           vstest.console.exe PartsUnlimited.SeleniumTests.exe
  
-
   Production:
     name: Deploy to Production
     runs-on: windows-latest
