@@ -9,13 +9,12 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Build Validate & Code QL Analyze
     runs-on: windows-latest
 
     strategy:
       fail-fast: false
-      matrix:
-        language: [ 'javascript' ]
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -24,7 +23,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
-        languages: ${{ matrix.language }}
+        languages: 'javascript'
 
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
