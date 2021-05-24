@@ -16,7 +16,7 @@ namespace PartsUnlimited
 {
     class Base_Class
     {
-        static string Base_Url = "https://partsunlimittedstaging.azurewebsites.net/";
+        static string Base_Url = "https://partsdemo.azurewebsites.net/";
         
         public static IEnumerable<string> BrowserToRunWith()
         {
