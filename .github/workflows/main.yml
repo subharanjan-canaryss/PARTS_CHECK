@@ -7,8 +7,8 @@ on:
 
 env:
   SLN_FILE: PartsUnlimited.sln
-  WEB_APP_NAME: partsunlimitted
-  STAGING_APP_NAME: partsunlimittedstaging
+  WEB_APP_NAME: partsdemo
+  STAGING_APP_NAME: partsdemo
   PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
@@ -59,7 +59,7 @@ jobs:
     runs-on: windows-latest
     environment:
       name: STAGING WEB APP
-      url: https://partsunlimittedstaging.azurewebsites.net/
+      url: https://partsdemo.azurewebsites.net
     needs: [BuildTest]
     steps:
     
@@ -122,7 +122,7 @@ jobs:
     runs-on: windows-latest
     environment:
       name: WEB APP
-      url: https://partsunlimitted.azurewebsites.net/
+      url: https://partsdemo.azurewebsites.net
     needs: [BuildTest]
     steps:
     
