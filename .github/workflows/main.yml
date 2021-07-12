@@ -34,7 +34,7 @@ jobs:
         
     - name: Build App
       run: |
-        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:SkipInvalidConfigurations=true
+        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true 
 
     - name: Run Unit Test
       run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
