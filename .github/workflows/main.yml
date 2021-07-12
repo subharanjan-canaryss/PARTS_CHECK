@@ -42,7 +42,7 @@ jobs:
     
     - name: Details
       run: |
-        cd ${{github.workspace}}/src/PartsUnlimitedWebsite
+        cd ${{github.workspace}}/src/PartsUnlimitedWebsite/bin
         dir
     
  #   - name: Copy Selenium Tests
