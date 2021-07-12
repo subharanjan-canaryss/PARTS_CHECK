@@ -40,6 +40,12 @@ jobs:
       run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
+    - name: Details
+      run: |
+        dir
+        cd ${{github.workspace}}/bin
+        dir
+    
  #   - name: Copy Selenium Tests
  #     shell: pwsh
 #      working-directory: ${{github.workspace}}/stagingdir
