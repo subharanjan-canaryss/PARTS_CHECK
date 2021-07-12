@@ -7,9 +7,9 @@ on:
 
 env:
   SLN_FILE: PartsUnlimited.sln
-  WEB_APP_NAME: partsdemo
-  STAGING_APP_NAME: partsdemo
-  PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
+ # WEB_APP_NAME: partsdemo
+ # STAGING_APP_NAME: partsdemo
+ # PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
   BuildTest:
@@ -34,147 +34,21 @@ jobs:
         
     - name: Build App
       run: |
-        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
+        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
 
     - name: Run Unit Test
       run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
-    - name: Copy Selenium Tests
-      shell: pwsh
-      working-directory: ${{github.workspace}}/stagingdir
-      run: |
-        new-item -Path . -Name 'TestAssemblies' -ItemType "directory"
-        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
+ #   - name: Copy Selenium Tests
+ #     shell: pwsh
+#      working-directory: ${{github.workspace}}/stagingdir
+#      run: |
+ #       new-item -Path . -Name 'TestAssemblies' -ItemType "directory"
+ #       copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
         
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
       with:
         name: drop
         path: ${{github.workspace}}/stagingdir
-
-    
-  Staging:
-    name: 📦 Deploy to Staging
-    runs-on: windows-latest
-    environment:
-      name: STAGING WEB APP
-      url: https://partsdemo.azurewebsites.net
-    needs: [BuildTest]
-    steps:
-    
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: drop
-          path: ${{github.workspace}}
-          
-      - name: Extract Artifact
-        run: expand-archive -path '*.zip' -destinationpath '.\webapp'
-        shell: pwsh
-        
-      - name: Azure WebApp Deploy
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{env.STAGING_APP_NAME}}
-          publish-profile: ${{secrets.WEB_APP_PUBLISH_PROFILE}}
-          package: webapp\${{env.PACKAGE_TEMP_PATH}}
-
-
-  SeleniumTest:
-    name: Selenium Test
-    runs-on: windows-latest
-    needs: [Staging]
-    steps:
-    
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: drop
-          path: ${{github.workspace}}
-          
-      - name: Setup VSTest
-        uses: darenm/Setup-VSTest@v1
-          
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@latest
-         
-      - name: Setup Firefox
-        uses: browser-actions/setup-firefox@latest
-        with:
-          firefox-version: "84.0"
-       
-      - name: Copy Drivers
-        shell: pwsh
-        run : |
-          copy-item -path ${{github.workspace}}/TestAssemblies/geckodriver.exe -destination "C:/Program Files/Mozilla Firefox"
-          cd C:/
-          mkdir chromedriver
-          copy-item -path ${{github.workspace}}/TestAssemblies/chromedriver.exe -destination C:\chromedriver\
-
-      - name: Run Selenium Test
-        working-directory: ${{github.workspace}}/TestAssemblies
-        run: |
-          vstest.console.exe PartsUnlimited.SeleniumTests.exe
- 
-  Production:
-    name: Deploy to Production
-    runs-on: windows-latest
-    environment:
-      name: WEB APP
-      url: https://partsdemo.azurewebsites.net
-    needs: [BuildTest]
-    steps:
-    
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: drop
-          path: ${{github.workspace}}
-          
-      - name: Extract Artifact
-        run: expand-archive -path '*.zip' -destinationpath '.\webapp'
-        shell: pwsh
-        
-      - name: Azure WebApp Deploy
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{env.WEB_APP_NAME}}
-          publish-profile: ${{secrets.WEB_APP_PUBLISH_PROFILE}}
-          package: webapp\${{env.PACKAGE_TEMP_PATH}}
-
-
-  # Deployiis:
-  #   runs-on: self-hosted
-  #   needs: [Build]
-  #   steps:
-  #   - name: Download Build Artifact
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: drop
-  #       path: ${{github.workspace}}
-        
-  #   - name: Deploy to IIS
-  #     run: |
-  #       powershell Get-ChildItem -Path .\webapp -Recurse | Remove-Item -Force
-  #       powershell expand-archive -path '*.zip' -destinationpath '.\webapp'
-  #       powershell Copy-Item -Path ".\webapp\${{env.PACKAGE_TEMP_PATH}}\*" -Destination "C:\inetpub\PartsUnlimited" -Recurse -Force
-     
-  #   - name: DACPAC Deploy
-  #     run: |
-  #       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /action:Publish /SourceFile:"C:\Users\canarys123\Desktop\PULREPO\SeleniumRepo\Database\Database\pul.dacpac" /TargetDatabaseName:PartsUnlimitedDB /TargetServerName:"githubvm\SQLEXPRESS"
-    
-  #   - name: Create Test Results Folder
-  #     run: powershell new-item -Path . -Name 'TestResults' -ItemType "directory" -Force
-      
-  #   - name: Run Selenium Tests
-  #     working-directory: ${{github.workspace}}/TestAssemblies
-  #     run: |
-  #       & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" PartsUnlimited.SeleniumTests.exe /ResultsDirectory:"${{github.workspace}}\TestResults"
-        
-  #   - name: Upload Testresults
-  #     uses: actions/upload-artifact@v2
-  #     if: ${{ always() }}
-  #     with:
-  #       name: TestResults
-  #       path: ${{github.workspace}}\TestResults
