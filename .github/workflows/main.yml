@@ -7,8 +7,7 @@ on:
 
 env:
   SLN_FILE: PartsUnlimited.sln
- # WEB_APP_NAME: partsdemo
- # STAGING_APP_NAME: partsdemo
+ # WEBAPP_NAME: partsdemo
   PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
@@ -41,22 +40,12 @@ jobs:
       run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
-#     - name: Details
-#       run: |
-#         cd ${{github.workspace}}/src/PartsUnlimitedWebsite/bin
-#         dir
-    
     - name: Copy Selenium Tests
       shell: pwsh
       #working-directory: ${{github.workspace}}/stagingdir
       run: |
        new-item -Path ${{github.workspace}}\stagingdir -Name "TestAssemblies" -ItemType "directory"
        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
-    
-#     - name: details check
-#       run: |
-#         cd ${{github.workspace}}\bin\
-#         dir
     
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
@@ -66,7 +55,6 @@ jobs:
 
   CodeQL:
       name: ⭕️ Security Scanning  
-      if: ${{ false }}
       runs-on: ubuntu-latest
       permissions:
        actions: read
@@ -99,7 +87,7 @@ jobs:
   Sonar-Analysis:
     name: 🔆 Sonar Analysis
     runs-on: windows-latest
-    needs: [ BuildTest, CodeQL ]
+    needs: [ BuildTest ]
     
     steps:
       
