@@ -93,6 +93,7 @@ jobs:
   Sonar-Analysis:
     name: 🔆 Sonar Analysis
     runs-on: windows-latest
+    needs: BuildTest
     
     steps:
       
