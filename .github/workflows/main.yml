@@ -7,7 +7,7 @@ on:
 
 env:
   SLN_FILE: PartsUnlimited.sln
- # WEBAPP_NAME: partsdemo
+  WEB_APP_NAME: partsdemo
   PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
@@ -148,3 +148,39 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Deploy:
+      name: 📦 Deploy 
+      runs-on: ubuntu-latest
+      environment: 
+        name: Azure Web App
+        url: https://${{env.WEB_APP_NAME}}.azurewebsites.net
+      needs: [ Build, Test, CodeQL, Sonar-Analysis]
+      
+      steps:
+        
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.0.7
+        with:
+          name: partsunlimited
+          
+      - name: Azure WebApp
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.WEB_APP_NAME}}
+          package: .
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
+  
+  Validate-Web:
+      name: ✅ Validate Web Deployment
+      runs-on: ubuntu-latest
+      needs: [ Deploy ]
+      steps:
+      
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v1.2
+        with:
+          url: https://${{ env.WEB_APP_NAME }}.azurewebsites.net
+          follow-redirect: no
+          max-attempts: 3 
+          retry-delay: 5s 
