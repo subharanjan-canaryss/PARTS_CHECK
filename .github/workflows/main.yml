@@ -107,6 +107,9 @@ jobs:
 #       - name: Autobuild
 #         uses: github/codeql-action/autobuild@v1
 
+      - name: NuGet restore
+        run: nuget restore
+
       - name: Build C# Project
         run: |
            msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU'
