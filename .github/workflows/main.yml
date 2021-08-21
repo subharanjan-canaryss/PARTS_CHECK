@@ -51,12 +51,17 @@ jobs:
       run: |
        new-item -Path ${{github.workspace}}\stagingdir -Name "TestAssemblies" -ItemType "directory"
        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
-        
+    
+    - name: details check
+      run: |
+        cd ${{github.workspace}}/bin/
+        dir
+    
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
       with:
         name: partsunlimited
-        path: ${{github.workspace}}/bin/release
+        path: ${{github.workspace}}/bin/
 
   CodeQL:
       name: ⭕️ Security Scanning  
