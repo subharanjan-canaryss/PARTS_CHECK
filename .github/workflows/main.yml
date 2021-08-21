@@ -14,7 +14,7 @@ env:
 jobs:
   BuildTest:
     runs-on: windows-latest
-    name: ⛏️ Build and Unit Test 🧪
+    name: ⛏️ Build and Unit Test
     steps:
     
     - name: Checkout
@@ -57,3 +57,35 @@ jobs:
       with:
         name: drop
         path: ${{github.workspace}}/bin/release
+
+  code-ql:
+      name: ⭕️ Security Scanning  
+      if: ${{ false }}
+      runs-on: ubuntu-latest
+      permissions:
+       actions: read
+       contents: read
+       security-events: write
+       
+      needs:  BuildTest
+      strategy:
+       fail-fast: false
+       matrix:
+        language: [ 'csharp', 'javascript' ]
+        
+      steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+          
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+        
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
