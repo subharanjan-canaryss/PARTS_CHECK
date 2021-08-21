@@ -54,14 +54,14 @@ jobs:
     
     - name: details check
       run: |
-        cd ${{github.workspace}}/bin/
+        cd ${{github.workspace}}\bin\
         dir
     
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
       with:
         name: partsunlimited
-        path: ${{github.workspace}}/bin/
+        path: ${{github.workspace}}\bin\
 
   CodeQL:
       name: ⭕️ Security Scanning  
