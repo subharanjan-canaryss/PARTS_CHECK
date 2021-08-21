@@ -130,27 +130,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  Lint:
-    name: 👀 Lint Code Base
-    runs-on: ubuntu-latest
-    needs: [ Build, Test ]
+#   Lint:
+#     name: 👀 Lint Code Base
+#     runs-on: ubuntu-latest
+#     needs: [ Build, Test ]
     
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v2
+#         with:
+#           # Full git history is needed to get a proper list of changed files within `super-linter`
+#           fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v3
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Lint Code Base
+#         uses: github/super-linter@v3
+#         env:
+#           VALIDATE_ALL_CODEBASE: true
+#           DEFAULT_BRANCH: master
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Deploy:
-      name: 📦 Deploy 
+      name: 📦 Deploy to Azure Web App
       runs-on: ubuntu-latest
       environment: 
         name: Azure Web App
