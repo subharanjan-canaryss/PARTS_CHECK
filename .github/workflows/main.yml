@@ -34,16 +34,17 @@ jobs:
         
     - name: Build App
       run: |
-        msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true 
+       # msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true 
+         msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"
 
     - name: Run Unit Test
       run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
       working-directory: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
     
-    - name: Details
-      run: |
-        cd ${{github.workspace}}/src/PartsUnlimitedWebsite/bin
-        dir
+#     - name: Details
+#       run: |
+#         cd ${{github.workspace}}/src/PartsUnlimitedWebsite/bin
+#         dir
     
     - name: Copy Selenium Tests
       shell: pwsh
@@ -52,16 +53,16 @@ jobs:
        new-item -Path ${{github.workspace}}\stagingdir -Name "TestAssemblies" -ItemType "directory"
        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
     
-    - name: details check
-      run: |
-        cd ${{github.workspace}}\bin\
-        dir
+#     - name: details check
+#       run: |
+#         cd ${{github.workspace}}\bin\
+#         dir
     
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
       with:
         name: partsunlimited
-        path: ${{github.workspace}}\bin\
+        path: ${{github.workspace}}\stagingdir
 
   CodeQL:
       name: ⭕️ Security Scanning  
