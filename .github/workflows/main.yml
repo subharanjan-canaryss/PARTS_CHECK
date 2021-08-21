@@ -143,6 +143,8 @@ jobs:
   Lint:
     name: 👀 Lint Code Base
     runs-on: ubuntu-latest
+    needs: BuildTest
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
