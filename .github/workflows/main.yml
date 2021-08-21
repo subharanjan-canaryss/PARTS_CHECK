@@ -104,9 +104,13 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v1
-        
+#       - name: Autobuild
+#         uses: github/codeql-action/autobuild@v1
+
+      - name: Build C# Project
+        run: |
+           msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU'
+          
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
 
