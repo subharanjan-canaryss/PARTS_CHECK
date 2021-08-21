@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D24BBB2-5220-4522-8E87-9A455C886175}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabrikamFiber.SeleniumTests", "test\FabrikamFiber.SeleniumTests\FabrikamFiber.SeleniumTests.csproj", "{8BA1E3A6-DD40-4534-B987-712B6A6E1D02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartsUnlimited.SeleniumTests", "test\PartsUnlimited.SeleniumTests\PartsUnlimited.SeleniumTests.csproj", "{F449BFE9-0A18-446E-966C-B052986FDB66}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PartsDB", "database\PartsDB\PartsDB.sqlproj", "{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,12 @@ Global
 		{F449BFE9-0A18-446E-966C-B052986FDB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F449BFE9-0A18-446E-966C-B052986FDB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F449BFE9-0A18-446E-966C-B052986FDB66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC21A9A-65E7-4A33-B056-07A09E38CDC6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
