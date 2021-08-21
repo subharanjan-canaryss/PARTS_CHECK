@@ -9,7 +9,7 @@ env:
   SLN_FILE: PartsUnlimited.sln
  # WEB_APP_NAME: partsdemo
  # STAGING_APP_NAME: partsdemo
- # PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
+  PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
   BuildTest:
