@@ -1,4 +1,4 @@
-# PartsUnlimited 🚒⚙🔗🚗🛠🔧
+# PartsUnlimited 🚒⚙🔗🚗
 
 [![PartsUnlimited](https://github.com/CanarysPlayground/PartsUnlimited/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/CanarysPlayground/PartsUnlimited/actions/workflows/main.yml)
 
@@ -20,8 +20,3 @@ Parts Unlimited is a fictitious ecommerce site selling spares and other consumab
 - Entity Framework code-first using SQL Azure or an in-memory database (Mono)
 - Basic administration pages to add or edit product information
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision environment
-
-added one line
-test #79
-test 2#509
-test3
