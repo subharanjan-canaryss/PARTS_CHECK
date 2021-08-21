@@ -1,4 +1,4 @@
-# PartsUnlimited 🚒⚙🔗🚗
+# PartsUnlimited 🚒
 
 [![PartsUnlimited](https://github.com/CanarysPlayground/PartsUnlimited/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/CanarysPlayground/PartsUnlimited/actions/workflows/main.yml)
 
