@@ -45,12 +45,12 @@ jobs:
         cd ${{github.workspace}}/src/PartsUnlimitedWebsite/bin
         dir
     
-#     - name: Copy Selenium Tests
-#       shell: pwsh
-#       working-directory: ${{github.workspace}}/stagingdir
-#       run: |
-#        new-item -Path . -Name 'TestAssemblies' -ItemType "directory"
-#        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
+    - name: Copy Selenium Tests
+      shell: pwsh
+      working-directory: ${{github.workspace}}/stagingdir
+      run: |
+       new-item -Path . -Name "TestAssemblies" -ItemType "directory"
+       copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
         
     - name: Publish Build artifact
       uses: actions/upload-artifact@v2
