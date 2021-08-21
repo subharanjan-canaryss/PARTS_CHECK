@@ -1,4 +1,0 @@
-github-pat:
-3689e75ac7f1847ce78fb35ddfdbc8c40d1b31c4
-db_connection:
-Server=tcp:puldb.database.windows.net,1433;Initial Catalog=partsdb;Persist Security Info=False;User ID=azureuser;Password=Canarys@12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
