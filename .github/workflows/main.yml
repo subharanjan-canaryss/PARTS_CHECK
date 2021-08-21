@@ -47,9 +47,9 @@ jobs:
     
     - name: Copy Selenium Tests
       shell: pwsh
-      working-directory: ${{github.workspace}}/stagingdir
+      #working-directory: ${{github.workspace}}/stagingdir
       run: |
-       new-item -Path . -Name 'TestAssemblies' -ItemType "directory"
+       new-item -Path ${{github.workspace}}\stagingdir -Name "TestAssemblies" -ItemType "directory"
        copy-item -Path ${{github.workspace}}\test\PartsUnlimited.SeleniumTests\bin\Release\* -Destination .\TestAssemblies -Recurse
         
     - name: Publish Build artifact
@@ -58,7 +58,7 @@ jobs:
         name: partsunlimited
         path: ${{github.workspace}}/bin/release
 
-  code-ql:
+  CodeQL:
       name: ⭕️ Security Scanning  
       if: ${{ false }}
       runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
        contents: read
        security-events: write
        
-      needs:  BuildTest
+      needs: BuildTest
       strategy:
        fail-fast: false
        matrix:
@@ -89,3 +89,59 @@ jobs:
         
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
+
+  Sonar-Analysis:
+    name: 🔆 Sonar Analysis
+    runs-on: windows-latest
+    needs: BuildTest
+    
+    steps:
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+      
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+      
+      - name: NuGet restore
+        run: nuget restore
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+      
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"CanarysPlayground_PartsUnlimited" /o:"canarysplayground" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
