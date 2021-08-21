@@ -11,9 +11,10 @@ env:
   PACKAGE_TEMP_PATH: Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
 
 jobs:
-  BuildTest:
+  
+  Build:
     runs-on: windows-latest
-    name: ⛏️ Build and Unit Test
+    name: ⛏️ Build Web App
     steps:
     
     - name: Checkout
@@ -52,7 +53,32 @@ jobs:
       with:
         name: partsunlimited
         path: ${{github.workspace}}\stagingdir
+    
+    - name: Publish Test artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: partsunlimited-unit-tests
+        path: ${{github.workspace}}\test\PartsUnlimited.UnitTests\bin\Release
+    
+  Test:
+      name: 🧪 Run Unit Tests
+      runs-on: windows-latest
+      needs: [ Build ]
+      steps:
+      
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1
 
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: partsunlimited-unit-tests
+          path: Unit-Tests
+      
+      - name: Run Unit Test
+        run: vstest.console.exe /Platform:x64 PartsUnlimited.UnitTests.dll
+        working-directory: Unit-Tests
+  
   CodeQL:
       name: ⭕️ Security Scanning  
       runs-on: ubuntu-latest
@@ -61,7 +87,7 @@ jobs:
        contents: read
        security-events: write
        
-      needs: BuildTest
+      needs: [ Build, Test ]
       strategy:
        fail-fast: false
        matrix:
@@ -87,7 +113,7 @@ jobs:
   Sonar-Analysis:
     name: 🔆 Sonar Qube Analysis
     runs-on: ubuntu-latest
-    needs: [ BuildTest ]
+    needs: [ Build, Test ]
     
     steps:
       
@@ -103,7 +129,7 @@ jobs:
   Lint:
     name: 👀 Lint Code Base
     runs-on: ubuntu-latest
-    needs: BuildTest
+    needs: [ Build, Test ]
     
     steps:
       - name: Checkout Code
