@@ -1,4 +1,4 @@
-name: PartsUnlimited.Web
+name: PartsUnlimited.Web.Release
 
 on:
   workflow_dispatch:
