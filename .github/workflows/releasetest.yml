@@ -2,8 +2,9 @@ name: PartsUnlimited.Web.Release
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
+  push: 
+    tags:
+      - ' [0-9]+.[0-9]+'
 
 env:
   SLN_FILE: PartsUnlimited.sln
