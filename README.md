@@ -5,7 +5,7 @@ Parts Unlimited is a fictitious ecommerce site selling spares and other consumab
 
 ![Items](https://user-images.githubusercontent.com/62549278/113146427-486a5f80-924d-11eb-8f51-7b694ff7895a.png)
 
-New Demo 
+New
 
 Test Demo
 
