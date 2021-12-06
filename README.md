@@ -5,14 +5,12 @@ Parts Unlimited is a fictitious ecommerce site selling spares and other consumab
 
 ![Items](https://user-images.githubusercontent.com/62549278/113146427-486a5f80-924d-11eb-8f51-7b694ff7895a.png)
 
-New
-
-Test Demo
 
 ## Key Features 📢💥
 
 - Works with Visual Studio 2017 and above
 - ASP.NET  5 support for Linux and Mono
+- .Net Framework App
 - Modern HTML5 responsive layout using bootstrap for mobile, tablet, and PC
 - Includes a Dockerfile and sample publishing profile to publish to a Docker container
 - Supports multiple authentication options including Azure Active Directory, Google, and Facebook
