@@ -5,8 +5,7 @@ on:
     types:
       [opened, edited, deleted, closed, reopened, labeled, unlabeled, assigned]
       
-  schedule: 
-    - cron: '0 */1 * * *'
+  
 
 jobs:
   alert:
