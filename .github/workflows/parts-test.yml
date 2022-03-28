@@ -11,12 +11,18 @@ env:
 jobs:
   
   Build:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     name: ⛏️ Build Web App
     steps:
     
     - name: Checkout
       uses: actions/checkout@v2
+    
+    - uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{secrets.REPO_ACCESS_TOKEN}}
+        
+    - run: git clone git@github.com:CanarysPlayground/tailspin-spacegame.git
       
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
