@@ -60,7 +60,7 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
     - name: CSV export
-      uses: advanced-security/ghas-to-csv@v3
+      uses: Subharanjan-Playground/ghas-to-csv@main
       env:
           GITHUB_PAT: ${{ secrets.PAT }}  # you need to set a PAT
     - name: Upload CSV
